@@ -1,0 +1,52 @@
+<div class="row mb-3">
+	<div class="col-md-12" *ngFor="let bookElement of myBooks; let i =index">
+		<app-book [book]="bookElement" [idx]="i"></app-book>
+    <button
+      class="float-right"
+      style="border: none; font-size: 16px"
+      (click)="onRemoveBook(i)"
+    >
+      &minus;
+    </button>
+			<div class="float-left">
+				<h4 class="list-group-item-heading">{{ book.title }}</h4>
+				<p class="list-group-item-text mb-0">{{ book.genre }}</p>
+			</div>
+			<div class="float-right">
+				<img
+					src="{{ book.coverImagePath }}"
+					alt="{{ book.title }}"
+					class="img-responsive rounded"
+					style="max-height: 50px"
+				/>
+			</div>
+	</div>
+</div>
+
+<hr />
+
+<div class="row">
+	<div class="col-md-12">
+		<button class="btn btn-primary" (click)="onNewBook()">Add New Book</button>
+	</div>
+</div>
+
+<!-- <div class="row mb-3">
+	<div class="col-md-12">
+		<app-book *ngFor="let bookEl of myBooks" [book]="bookEl" (bookSelected)="handleBookSelected(bookEl)"></app-book>
+    <app-book-list (currentSelectedBook)="selectedBook=$event"></app-book-list>
+	</div>
+</div>
+
+<div class="row mb-3">
+  <div class="col-md-12" *ngFor="let bookElement of myBooks; let i = index">
+    <app-book [book]="bookElement"></app-book>
+    <button
+      class="float-right"
+      style="border: none; font-size: 16px"
+      (click)="onRemoveBook(i)"
+    >
+      &minus;
+    </button>
+  </div>
+</div> -->

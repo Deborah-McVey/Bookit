@@ -1,0 +1,45 @@
+<div class="row justify-content-between">
+  <!-- Left Side - Book List -->
+  <div class="col-md-6">
+    <h1>My Saved Books</h1>
+    <app-book-list> <!-- (currentSelectedBook)="selectedBook=$event" --></app-book-list>
+  </div>
+
+  <!-- Right Side - Book Details -->
+  <div class="col-md-6">
+    <router-outlet>
+      *ngIf="selectedBook; else infoText"
+      [book]="selectedBook"
+    ></router-outlet>
+    <router-outlet #infoText>
+      <p>Please select a book!</p>
+    </router-outlet>
+  </div>
+</div>
+
+<div class="row mb-3" *ngFor="let book of myBooks">
+	<div class="col-md-12">
+		<a href="#" class="list-group-item clearfix" (click)="onBookSelected">
+			<div class="float-left">
+				<h4 class="list-group-item-heading">{{ book.title }}</h4>
+				<p class="list-group-item-text mb-0">{{ book.genre }}</p>
+			</div>
+			<div class="float-right">
+				<img
+					src="{{ book.coverImagePath }}"
+					alt="{{ book.title }}"
+					class="img-responsive rounded"
+					style="max-height: 50px"
+				/>
+			</div>
+		</a>
+	</div>
+</div>
+
+<hr />
+
+<div class="row">
+	<div class="col-md-12">
+		<button class="btn btn-primary">Add New Book</button>
+	</div>
+</div>

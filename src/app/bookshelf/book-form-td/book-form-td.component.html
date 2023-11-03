@@ -1,0 +1,29 @@
+<!-- . . . -->
+<input name="title" #titleRef="ngModel" ngModel required />
+<span class="help-block text-danger" *ngIf="titleRef.invalid && titleRef.touched"
+  >Please enter a valid title!</span
+>
+<!--  . . . -->
+<input name="author" #emailRef="ngModel" ngModel required />
+<span class="help-block text-danger" *ngIf="authorRef.invalid && authorRef.touched"
+  >Please enter a valid author!</span
+>
+<!--  . . . -->
+<select
+id="genre"
+name="genre"
+class="form-control"
+#genreRef="ngModel"
+ngModel="'mystery'"
+required>
+</select>
+<span class="help-block text-danger" *ngIf="genreRef.invalid && genreRef.touched"
+  >Please enter a valid genre!</span
+>
+<!-- . . . -->
+<button
+class="btn btn-primary"
+type="submit"
+[disabled]="templateFormRef.invalid">
+Submit
+</button>
