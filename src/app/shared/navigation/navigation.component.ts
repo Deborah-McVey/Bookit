@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { HTTPService } from '../http.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-navigation',
@@ -10,10 +11,19 @@ export class NavigationComponent implements OnInit {
   /* @Output() currentPage = new EventEmitter<string>(); */
   collapsed: boolean = true;
   show: boolean = false;
+  isAuthenticated = false;
 
-  constructor(private: httpService: HTTPService) {}
+  constructor(private: httpService: HTTPService, private authService: AuthService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.authService.curentUser.subscribe((user) => {
+      this.isAuthenticated = !!user;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.authService.currentUser.unsubscribe();
+  }
 
   onSaveData() {
     this.httpService.saveBooksToFirebase();
