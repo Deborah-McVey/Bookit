@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { tap } from "rxjs";
 
 const AUTH_API_KEY = "AIzaSyBaVRnwBZHw-lyoShvgldz6CCZ8H0qUi-U"; // Use your api key!
@@ -26,7 +27,7 @@ export class AuthService {
 
   userToken: string = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   signUp(email: string, password: string) {
     return this.http.post<AuthResponseData>(SIGN_UP_URL + AUTH_API_KEY, {
@@ -56,7 +57,13 @@ export class AuthService {
             this.handleAuth(email, localId, idToken, +expiresIn);
           })
         );
-}
+
+  signOut() {
+    this.currentUser.next(null);
+    this.router.navigate(['auth']);
+  }
+
+  }
 
 handleAuth(email: string, userId: string, token: string, expiresIn: number) {
   // Create Expiration Date for Token

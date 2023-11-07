@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { HTTPService } from '../http.service';
+import { HTTPService } from '../http/http.service';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
@@ -31,6 +31,10 @@ export class NavigationComponent implements OnInit {
 
   onFetchData() {
     this.httpService.fetchBooksFromFirebase().subscribe();
+  }
+
+  onSignOut() {
+    this.authService.signOut();
   }
 
   /* onSelectPage(page: string) {

@@ -21,6 +21,10 @@ import { BookFormTemplateComponent } from './bookshelf/book-form-template/book-f
 import { BookFormReactiveComponent } from './bookshelf/book-form-reactive/book-form-reactive.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthComponent } from './shared/auth/auth.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptorService } from './shared/auth/auth-interceptor.service';
+import { HttpComponent } from './shared/http/http.component';
+import { AuthGuardComponent } from './shared/auth/auth-guard/auth-guard.component';
 
 @NgModule({
   declarations: [
@@ -41,14 +45,22 @@ import { AuthComponent } from './shared/auth/auth.component';
     BookFormTdComponent,
     BookFormTemplateComponent,
     BookFormReactiveComponent,
-    AuthComponent
+    AuthComponent,
+    HttpComponent,
+    AuthGuardComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
