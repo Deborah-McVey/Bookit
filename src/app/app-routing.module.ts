@@ -9,6 +9,7 @@ import { LibraryComponent } from "./library/library.component";
 import { SingleBookFormComponent } from "./bookshelf-page/single-book-form.component"; */
 
 const appRoutes: Routes = [
+  { path: 'auth', component: AuthComponent }
   { path: "", redirectTo: "/bookshelf", pathMatch: "full" },
   {
     path: "bookshelf",
