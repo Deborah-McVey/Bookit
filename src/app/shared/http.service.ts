@@ -1,7 +1,9 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { tap } from "rxjs/operators";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { exhaustMap, take, tap } from "rxjs/operators";
 import { BookshelfService } from "./../../bookshelf/bookshelf.service";
+import { AuthService } from "./auth/auth.service";
+import { Book } from "./book/book.component";
 
 @Injectable({
   providedIn: "root"
@@ -14,6 +16,7 @@ export class HTTPService {
   // *INJECTIONS*
   constructor(
     private http: HttpClient,
+    private authService: AuthService,
     private bookshelfService: BookshelfService
   ) {}
 
@@ -27,11 +30,25 @@ export class HTTPService {
   }
 
   // *METHOD* - Fetch books from Firebase DB
-  fetchBooksFromFirebase() {
+  // ! NOTE: WE WILL NOT NEED THIS CODE SHORTLY!!!
+fetchBooksFromFirebase() {
+  return this.authService.currentUser.pipe(
+    take(1),
+    exhaustMap((user) => {
+      console.log(user);
+      return this.http
+        .get(this.firebaseRootURL, {
+          params: new HttpParams().set('auth', user.token),
+        })
+        .pipe(
+          tap((books: Book[]) => {
+            this.bookshelfService.setBooks(books);
+          })
+        );
+    }
+  /* fetchBooksFromFirebase() {
     return this.http
       .get(this.firebaseRootURL, {})
       .subscribe((res: Book[] | []) => {
         this.bookshelfService.setBooks(res);
-      });
-  }
-}
+      }); */

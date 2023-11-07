@@ -16,7 +16,7 @@ export class NavigationComponent implements OnInit {
   constructor(private: httpService: HTTPService, private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.curentUser.subscribe((user) => {
+    this.authService.currentUser.subscribe((user) => {
       this.isAuthenticated = !!user;
     });
   }

@@ -24,6 +24,8 @@ const SIGN_IN_URL =
 
 export class AuthService {
 
+  userToken: string = null;
+
   constructor(private http: HttpClient) {}
 
   signUp(email: string, password: string) {
