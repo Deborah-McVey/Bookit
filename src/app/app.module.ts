@@ -25,6 +25,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptorService } from './shared/auth/auth-interceptor.service';
 import { HttpComponent } from './shared/http/http.component';
 import { AuthGuardComponent } from './shared/auth/auth-guard/auth-guard.component';
+import { AlertComponent } from './shared/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { AuthGuardComponent } from './shared/auth/auth-guard/auth-guard.componen
     BookFormReactiveComponent,
     AuthComponent,
     HttpComponent,
-    AuthGuardComponent
+    AuthGuardComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

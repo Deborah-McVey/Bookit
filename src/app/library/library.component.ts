@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-library',
@@ -6,5 +7,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./library.component.css']
 })
 export class LibraryComponent {
+  private selectedBookSub: Subscription;
+  alert: string;
 
+  constructor(private bookshelfService: BookshelfService) {}
+
+  ngOnInit(): void {
+    this.selectedBookSub = this.bookshelfService.bookSelected.subscribe(
+      book => {
+        this.alert = `Successfully added book: ${book.title} by ${book.author} to personal bookshelf!`;
+      }
+    );
+    }
+    ngOnDestroy(): void {
+      this.selectedBookSub.unsubscribe();
+  }
 }
