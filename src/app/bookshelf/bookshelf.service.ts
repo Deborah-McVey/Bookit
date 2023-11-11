@@ -1,13 +1,16 @@
 import { Injectable } from "@angular/core";
 import { Book } from "../shared/book/book.component";
-import { Subject } from "rxjs";
+import { Subject, tap } from "rxjs";
 
 @Injectable({
   providedIn: "root"
 })
-export class LibraryService {
+export class BookshelfService {
 
 private myBooks: Book[] = [];
+  bookshelfService: any;
+  http: any;
+  firebaseRootURL: any;
 
 getBook(idx: number) {
   return this.myBooks.slice()[idx]
@@ -22,11 +25,13 @@ bookListChanged = new Subject<Book[]>();
 
 saveBook(book: Book) {
   this.myBooks.push(book);
+  this.bookSelected.next(book);
   this.bookListChanged.next(this.myBooks.slice())
 }
 
 removeBook(idx: number) {
   if (idx !== -1) {
+      this.bookSelected.next(rgis.myBooks[idx]);
       this.myBooks.splice(idx, 1);
       this.bookListChanged.next(this.myBooks.slice());
   }

@@ -1,4 +1,5 @@
-import { Injectable } from "@angular/core";
+import { EventEmitter, Injectable } from "@angular/core";
+import { Book } from "../shared/book/book.component";
 
 @Injectable({
   providedIn: "root"
