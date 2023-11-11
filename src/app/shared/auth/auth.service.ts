@@ -1,7 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { tap } from "rxjs";
+import { pipe, tap } from "rxjs";
+import { environment } from 'src/environments/environment';
 
 const AUTH_API_KEY = "AIzaSyBaVRnwBZHw-lyoShvgldz6CCZ8H0qUi-U"; // Use your api key!
 const SIGN_UP_URL =
@@ -9,7 +10,7 @@ const SIGN_UP_URL =
 const SIGN_IN_URL =
   "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=";
 
-  export interface AuthResponseData {
+export interface AuthResponseData {
     kind: string;
     idToken: string;
     email: string;
@@ -19,18 +20,28 @@ const SIGN_IN_URL =
     registered?: boolean;
   }
 
+
+export interface UserData {
+  email: string;
+  id: string;
+  _token: string;
+  _tokenExpitationDate: string;
+}
+
 @Injectable({
   providedIn: "root"
 })
 
 export class AuthService {
 
+  private tokenExpTimer: any;
+
   userToken: string = null;
 
   constructor(private http: HttpClient, private router: Router) {}
 
   signUp(email: string, password: string) {
-    return this.http.post<AuthResponseData>(SIGN_UP_URL + AUTH_API_KEY, {
+    return this.http.post<AuthResponseData>(SIGN_UP_URL + environment.firebaseAPIKey, {
       email,
       password,
       returnSecureToken: true
@@ -45,7 +56,7 @@ export class AuthService {
 
   signIn(email: string, password: string) {
     return this.http.post<AuthResponseData>(
-        SIGN_IN_URL + AUTH_API_KEY,
+        SIGN_IN_URL + environment.firebaseAPIKey,
         {
         email,
         password,
@@ -60,7 +71,37 @@ export class AuthService {
 
   signOut() {
     this.currentUser.next(null);
+
+    localStorage.removeItem("userData");
+
+    if (this.tokenExpTimer) clearTimeout(this.tokenExpTimer);
+
     this.router.navigate(['auth']);
+  }
+
+  automaticSignIn() {
+    const userData: UserData = JSON.parse(localStorage.getItem('userData'));
+
+    if (!userData) return;
+    const loaderUser = new User(
+      email,
+      id,
+      _token,
+      new Date(_tokenExpirationDate)
+    );
+
+    automaticSignOut(expDuration: number) {
+      console.log("Expiration Duration:", expDuration);
+
+      this.tokenExpTimer = setTimeout(() => {
+        this.signOut();
+      }, expDuration);
+    }
+
+    if (loadedUser.token) {
+      this.currentUser.next(loaderUser);
+
+    }
   }
 
   }
@@ -75,6 +116,9 @@ handleAuth(email: string, userId: string, token: string, expiresIn: number) {
 
   // Save the new user in localStorage
   localStorage.setItem("userData", JSON.stringify(formUser));
+
+  this.automaticSignOut(expiresIn * 1000);
+}
 }
 
-}
+
