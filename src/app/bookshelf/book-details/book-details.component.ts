@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Book } from 'src/app/shared/book/book.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-book-details',
@@ -26,6 +26,11 @@ ngOnInit(): void {
 onEditBook() {
   this.router.navigate(['../', this.idx, 'edit'],
   { relativeTo: this.route });
-}
+};
+
+function onEditBook() {
+  throw new Error('Function not implemented.');
+};
+
 }
 }
